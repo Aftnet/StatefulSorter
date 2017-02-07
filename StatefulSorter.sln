@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatefulSorter", "StatefulSorter\StatefulSorter.csproj", "{BE0E915A-6E76-4DDF-952C-A4E382D2CC85}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatefulSorter.Test", "StatefulSorter.Test\StatefulSorter.Test.csproj", "{916CEABE-8D0F-41EA-8B4F-F9C17FB5BC64}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BE0E915A-6E76-4DDF-952C-A4E382D2CC85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE0E915A-6E76-4DDF-952C-A4E382D2CC85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE0E915A-6E76-4DDF-952C-A4E382D2CC85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE0E915A-6E76-4DDF-952C-A4E382D2CC85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{916CEABE-8D0F-41EA-8B4F-F9C17FB5BC64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{916CEABE-8D0F-41EA-8B4F-F9C17FB5BC64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{916CEABE-8D0F-41EA-8B4F-F9C17FB5BC64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{916CEABE-8D0F-41EA-8B4F-F9C17FB5BC64}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
