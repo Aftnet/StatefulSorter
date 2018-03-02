@@ -27,6 +27,19 @@ namespace StatefulSorter.Test
             }
         }
 
+        private class PersonComparer : IEqualityComparer<Person>
+        {
+            public bool Equals(Person x, Person y)
+            {
+                return x.Age == y.Age && x.FirstName == y.FirstName && x.LastName == y.LastName;
+            }
+
+            public int GetHashCode(Person obj)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         private static readonly Person[] TestData = new Person[]
         {
             new Person("aaa", "ccc", 1),
@@ -43,7 +56,7 @@ namespace StatefulSorter.Test
             new Person("or", "and", 2),
         };
 
-        private static readonly StatefulSorter<Person, SortTypes> Target = new StatefulSorter<Person, SortTypes>(new Dictionary<SortTypes, Func<Person, object>>
+        private readonly StatefulSorter<Person, SortTypes> Target = new StatefulSorter<Person, SortTypes>(new Dictionary<SortTypes, Func<Person, object>>
         {
             { SortTypes.FirstName, d=>d.FirstName },
             { SortTypes.LastName, d=>d.LastName },
@@ -54,34 +67,34 @@ namespace StatefulSorter.Test
         public void SortingWorks()
         {
             var sorted = Target.Sort(TestData, SortTypes.FirstName).ToArray();
-            CompareSorting(TestData.OrderBy(d => d.FirstName), sorted);
+            Assert.Equal(sorted, TestData.OrderBy(d => d.FirstName), new PersonComparer());
 
             sorted = Target.Sort(sorted, SortTypes.FirstName).ToArray();
-            CompareSorting(TestData.OrderByDescending(d => d.FirstName), sorted);
+            Assert.Equal(sorted, TestData.OrderByDescending(d => d.FirstName), new PersonComparer());
 
             sorted = Target.Sort(sorted, SortTypes.FirstName).ToArray();
-            CompareSorting(TestData.OrderBy(d => d.FirstName), sorted);
+            Assert.Equal(sorted, TestData.OrderBy(d => d.FirstName), new PersonComparer());
 
             sorted = Target.Sort(sorted, SortTypes.FirstName).ToArray();
-            CompareSorting(TestData.OrderByDescending(d => d.FirstName), sorted);
+            Assert.Equal(sorted, TestData.OrderByDescending(d => d.FirstName), new PersonComparer());
 
             sorted = Target.Sort(sorted, SortTypes.LastName).ToArray();
-            CompareSorting(TestData.OrderBy(d => d.LastName).ThenByDescending(d => d.FirstName), sorted);
+            Assert.Equal(sorted, TestData.OrderBy(d => d.LastName).ThenByDescending(d => d.FirstName), new PersonComparer());
 
             sorted = Target.Sort(sorted, SortTypes.LastName).ToArray();
-            CompareSorting(TestData.OrderByDescending(d => d.LastName).ThenByDescending(d => d.FirstName), sorted);
+            Assert.Equal(sorted, TestData.OrderByDescending(d => d.LastName).ThenByDescending(d => d.FirstName), new PersonComparer());
 
             sorted = Target.Sort(sorted, SortTypes.Age).ToArray();
-            CompareSorting(TestData.OrderBy(d => d.Age).ThenByDescending(d => d.LastName).ThenByDescending(d => d.FirstName), sorted);
+            Assert.Equal(sorted, TestData.OrderBy(d => d.Age).ThenByDescending(d => d.LastName).ThenByDescending(d => d.FirstName), new PersonComparer());
 
             sorted = Target.Sort(sorted, SortTypes.LastName).ToArray();
-            CompareSorting(TestData.OrderBy(d => d.LastName).ThenBy(d => d.Age).ThenByDescending(d => d.FirstName), sorted);
+            Assert.Equal(sorted, TestData.OrderBy(d => d.LastName).ThenBy(d => d.Age).ThenByDescending(d => d.FirstName), new PersonComparer());
 
             sorted = Target.Sort(sorted, SortTypes.LastName).ToArray();
-            CompareSorting(TestData.OrderByDescending(d => d.LastName).ThenBy(d => d.Age).ThenByDescending(d => d.FirstName), sorted);
+            Assert.Equal(sorted, TestData.OrderByDescending(d => d.LastName).ThenBy(d => d.Age).ThenByDescending(d => d.FirstName), new PersonComparer());
 
             sorted = Target.Sort(sorted, SortTypes.FirstName).ToArray();
-            CompareSorting(TestData.OrderBy(d => d.FirstName).ThenByDescending(d => d.LastName).ThenBy(d => d.Age), sorted);
+            Assert.Equal(sorted, TestData.OrderBy(d => d.FirstName).ThenByDescending(d => d.LastName).ThenBy(d => d.Age), new PersonComparer());
         }
 
         [Fact]
@@ -93,16 +106,7 @@ namespace StatefulSorter.Test
 
             Target.Reset();
             sorted = Target.Sort(TestData, SortTypes.FirstName).ToArray();
-            CompareSorting(TestData.OrderBy(d => d.FirstName), sorted);
-        }
-
-        private void CompareSorting<T>(IEnumerable<T> reference, IEnumerable<T> actual)
-        {
-            Assert.Equal(reference.Count(), actual.Count());
-            foreach (var i in reference.Zip(actual, (d, e) => new { First = d, Second = e }))
-            {
-                Assert.Same(i.First, i.Second);
-            }
+            Assert.Equal(sorted, TestData.OrderBy(d => d.FirstName), new PersonComparer());
         }
     }
 }
